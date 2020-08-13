@@ -9,12 +9,15 @@ namespace Carvajal.Services
     public class UserServices : IDisposable, IUserServices
     {
         private readonly IUserAppData _data;
+        private readonly ITypeIdData _typeData;
 
         private bool disposedValue;
 
-        public UserServices(IUserAppData data)
+
+        public UserServices(IUserAppData data, ITypeIdData typeData)
         {
             _data = data ?? throw new ArgumentNullException(nameof(data));
+            _typeData = typeData ?? throw new ArgumentNullException(nameof(typeData));
         }
 
         public List<UserApp> GetUserAppsFromFilter(UserFilter filter)
@@ -121,6 +124,25 @@ namespace Carvajal.Services
             }
         }
 
+        public List<TypeIdentification> GetTypeIdsFromAll()
+        {
+            try
+            {
+                return _typeData.GetAll() ?? new List<TypeIdentification>();
+            }
+            catch (DataErrorException ex)
+            {
+                Logger.ErrorFatal("GetTypeIdsFromAll", ex);
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Logger.ErrorFatal("GetTypeIdsFromAll", ex);
+                throw ex;
+            }
+        }
+
+
         #region [Dispose]
 
         protected virtual void Dispose(bool disposing)
@@ -154,6 +176,7 @@ namespace Carvajal.Services
             GC.SuppressFinalize(this);
         }
 
+       
         #endregion [Dispose]
     }
 
@@ -166,5 +189,7 @@ namespace Carvajal.Services
         UserApp UserAppInsert(UserApp userApp);
 
         UserApp UserAppUpdate(UserApp userApp);
+
+        List<TypeIdentification> GetTypeIdsFromAll();
     }
 }

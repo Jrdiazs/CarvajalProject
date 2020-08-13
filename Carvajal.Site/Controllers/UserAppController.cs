@@ -6,17 +6,32 @@ using System;
 
 namespace Carvajal.Site.Controllers
 {
+    /// <summary>
+    /// Controlador para el componente IUserServices
+    /// </summary>
     [Route("api/UserApp")]
     [ApiController]
     public class UserAppController : ControllerBase
     {
+        /// <summary>
+        /// Componente de servicio IUserServices
+        /// </summary>
         private readonly IUserServices _services;
 
+        /// <summary>
+        /// Constructor del controlador UserAppController
+        /// </summary>
+        /// <param name="services">Componente de servicio IUserServices/param>
         public UserAppController(IUserServices services)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
         }
 
+        /// <summary>
+        /// Agrega un nuevo usuario a la base de datos
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("UserAppInsert")]
         public IActionResult UserAppInsert([FromBody] UserAppViewModel model)
@@ -48,6 +63,11 @@ namespace Carvajal.Site.Controllers
             }
         }
 
+        /// <summary>
+        /// Modifica un usuario por id
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("UserAppUpdate")]
         public IActionResult UserAppUpdate([FromBody] UserAppViewModel model)
@@ -82,8 +102,13 @@ namespace Carvajal.Site.Controllers
             }
         }
 
+        /// <summary>
+        /// Consulta un usuario por id
+        /// </summary>
+        /// <param name="userId">usuario id</param>
+        /// <returns></returns>
         [HttpGet]
-        [Route("UserAppUpdate")]
+        [Route("GetUserFromById")]
         public IActionResult GetUserFromById([FromQuery] int userId)
         {
             try
@@ -94,6 +119,35 @@ namespace Carvajal.Site.Controllers
                     return NotFound($"User id {userId} not Found");
 
                 return Ok(userApp);
+            }
+            catch (DataErrorException ex)
+            {
+                return StatusCode(500, ex.MessageInnerException);
+            }
+            catch (ExceptionBusiness ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Consulta un usuario por id
+        /// </summary>
+        /// <param name="userId">usuario id</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetTypeIdsFromAll")]
+        public IActionResult GetTypeIdsFromAll()
+        {
+            try
+            {
+                var typeIds = _services.GetTypeIdsFromAll();
+
+                return Ok(typeIds);
             }
             catch (DataErrorException ex)
             {
