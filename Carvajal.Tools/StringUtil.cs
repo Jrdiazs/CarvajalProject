@@ -145,7 +145,6 @@ namespace Carvajal.Tools.String
             return c > 32 && c < 127 && !IsDigit(c) && !IsLetter(c);
         }
 
-
         /// <summary>
         /// Elimina todos los espacion de una cadena de texto
         /// </summary>

@@ -1,11 +1,12 @@
-﻿using Dapper;
+﻿using Carvajal.Models;
+using Carvajal.Tools.String;
 using Carvjal.Models;
+using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using Carvajal.Tools.String;
 
 namespace Carvajal.Data
 {
@@ -43,9 +44,9 @@ namespace Carvajal.Data
                 var data = Connection.Get<TModel>(id, transaction: transaction);
                 return data;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in GetFindId", ex);
             }
         }
 
@@ -61,9 +62,9 @@ namespace Carvajal.Data
                 var data = await Connection.GetAsync<TModel>(id, transaction: transaction);
                 return data;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in GetFindIdAsync", ex);
             }
         }
 
@@ -78,9 +79,9 @@ namespace Carvajal.Data
                 var data = Connection.GetList<TModel>().ToList();
                 return data ?? new List<TModel>();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in GetAll", ex);
             }
         }
 
@@ -95,9 +96,9 @@ namespace Carvajal.Data
                 var data = await Connection.GetListAsync<TModel>();
                 return data.ToList() ?? new List<TModel>();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in GetAllAsync", ex);
             }
         }
 
@@ -115,9 +116,9 @@ namespace Carvajal.Data
                 var data = Connection.GetList<TModel>(conditions: where, parameters: parameters, transaction: transaction).ToList();
                 return data ?? new List<TModel>();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in GetList", ex);
             }
         }
 
@@ -135,9 +136,9 @@ namespace Carvajal.Data
                 var data = await Connection.GetListAsync<TModel>(conditions: where, parameters: parameters, transaction: transaction);
                 return data.ToList() ?? new List<TModel>();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in GetListAsync", ex);
             }
         }
 
@@ -154,9 +155,9 @@ namespace Carvajal.Data
                 var data = Connection.GetList<TModel>(whereConditions: whereConditions, transaction: transaction).ToList();
                 return data ?? new List<TModel>();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in GetList", ex);
             }
         }
 
@@ -173,9 +174,9 @@ namespace Carvajal.Data
                 var data = await Connection.GetListAsync<TModel>(whereConditions: whereConditions, transaction: transaction);
                 return data.ToList() ?? new List<TModel>();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in GetListAsync", ex);
             }
         }
 
@@ -193,9 +194,9 @@ namespace Carvajal.Data
                 Tkey key = Connection.Insert<Tkey, TModel>(model, transaction: transaction);
                 return key;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in Insert", ex);
             }
         }
 
@@ -213,9 +214,9 @@ namespace Carvajal.Data
                 Tkey key = await Connection.InsertAsync<Tkey, TModel>(model, transaction: transaction);
                 return key;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in InsertAsync", ex);
             }
         }
 
@@ -232,9 +233,9 @@ namespace Carvajal.Data
                 int update = Connection.Update(model, transaction: transaction);
                 return model;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in Update", ex);
             }
         }
 
@@ -251,9 +252,9 @@ namespace Carvajal.Data
                 int update = await Connection.UpdateAsync(model, transaction: transaction);
                 return model;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in UpdateAsync", ex);
             }
         }
 
@@ -270,9 +271,9 @@ namespace Carvajal.Data
                 int delete = Connection.Delete(model, transaction: transaction);
                 return model;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in Delete", ex);
             }
         }
 
@@ -289,9 +290,9 @@ namespace Carvajal.Data
                 int delete = await Connection.DeleteAsync(model, transaction: transaction);
                 return model;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in DeleteAsync", ex);
             }
         }
 
@@ -308,9 +309,9 @@ namespace Carvajal.Data
                 int delete = Connection.Delete(id, transaction: transaction);
                 return delete;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in Delete", ex);
             }
         }
 
@@ -327,9 +328,9 @@ namespace Carvajal.Data
                 int delete = await Connection.DeleteAsync(id, transaction: transaction);
                 return delete;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in DeleteAsync", ex);
             }
         }
 
@@ -347,9 +348,9 @@ namespace Carvajal.Data
                 int count = Connection.RecordCount<TModel>(conditions: conditions, parameters: parameters, transaction: transaction);
                 return count;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in Count", ex);
             }
         }
 
@@ -367,9 +368,9 @@ namespace Carvajal.Data
                 int count = await Connection.RecordCountAsync<TModel>(conditions: conditions, parameters: parameters, transaction: transaction);
                 return count;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in CountAsync", ex);
             }
         }
 
@@ -386,9 +387,9 @@ namespace Carvajal.Data
                 int count = Connection.RecordCount<TModel>(whereConditions: whereConditions, transaction: transaction);
                 return count;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in Count", ex);
             }
         }
 
@@ -405,9 +406,9 @@ namespace Carvajal.Data
                 int count = await Connection.RecordCountAsync<TModel>(whereConditions: whereConditions, transaction: transaction);
                 return count;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in CountAsync", ex);
             }
         }
 
@@ -431,9 +432,9 @@ namespace Carvajal.Data
 
                 return model;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in GetPageList", ex);
             }
         }
 
@@ -457,9 +458,9 @@ namespace Carvajal.Data
 
                 return model;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new DataErrorException("Error in GetPageListAsync", ex);
             }
         }
 

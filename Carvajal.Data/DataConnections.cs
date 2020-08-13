@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Carvajal.Tools.String;
+using System;
 using System.Data;
 using System.Data.Common;
-using Carvajal.Tools.String;
 
 namespace Carvajal.Data
 {
@@ -53,7 +53,7 @@ namespace Carvajal.Data
             Connection = factory.CreateConnection();
             Connection.ConnectionString = "DefaultConnections".ReadConnections();
         }
-       
+
         /// <summary>
         /// Instancia una conexion a partir de otra ya generada
         /// </summary>
