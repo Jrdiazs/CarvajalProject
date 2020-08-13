@@ -70,8 +70,8 @@ namespace Carvajal.Tools.String
                 configurationBuilder.AddJsonFile(path, false);
                 var root = configurationBuilder.Build();
                 var appSetting = root.GetSection("ApplicationSettings");
-
-                return appSetting[keyvalue] ?? valuedefault;
+                var value = appSetting[keyvalue];
+                return value ?? valuedefault;
             }
             catch (Exception)
             {
@@ -204,8 +204,8 @@ namespace Carvajal.Tools.String
                 configurationBuilder.AddJsonFile(path, false);
 
                 var root = configurationBuilder.Build();
-
-                return root.GetConnectionString(key);
+                var connection = root.GetConnectionString(key);
+                return connection;
             }
             catch (Exception)
             {

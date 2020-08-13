@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Data.Common;
+using System.Data.SqlClient;
 
 namespace Carvajal.Data
 {
@@ -49,9 +50,8 @@ namespace Carvajal.Data
         /// </summary>
         public DataConnections()
         {
-            var factory = DbProviderFactories.GetFactory("Provider".ReadKey());
-            Connection = factory.CreateConnection();
-            Connection.ConnectionString = "DefaultConnections".ReadConnections();
+            string strConnections = "DefaultConnection".ReadConnections();
+            Connection = new SqlConnection(strConnections);
         }
 
         /// <summary>

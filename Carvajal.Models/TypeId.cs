@@ -5,6 +5,7 @@ namespace Carvajal.Models
     [Table("TypeId")]
     public class TypeIdentification
     {
+        [Key]
         [Column("TypeId")]
         public int TypeId { get; set; }
 

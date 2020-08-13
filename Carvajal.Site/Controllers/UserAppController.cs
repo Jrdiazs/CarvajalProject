@@ -3,6 +3,8 @@ using Carvajal.Services;
 using Carvajal.Site.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Carvajal.Site.Controllers
 {
@@ -48,6 +50,38 @@ namespace Carvajal.Site.Controllers
                 userApp = _services.UserAppInsert(userApp);
 
                 return Ok(userApp);
+            }
+            catch (DataErrorException ex)
+            {
+                return StatusCode(500, ex.MessageInnerException);
+            }
+            catch (ExceptionBusiness ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Buscar los usuario por nombre completo, numero de identificacion y tipo de identificacion
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("GetUserAppsFromFilter")]
+        public IActionResult GetUserAppsFromFilter([FromBody] UserFilter filter)
+        {
+            try
+            {
+                var userModel = new List<UserAppViewModel>();
+                var users = _services.GetUserAppsFromFilter(filter);
+                if (users.Any())
+                    userModel = users.Select(x => x.UserToUserViewModel()).ToList();
+
+                return Ok(userModel);
             }
             catch (DataErrorException ex)
             {

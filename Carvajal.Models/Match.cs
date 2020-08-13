@@ -5,6 +5,7 @@ namespace Carvajal.Models
     [Table("Match")]
     public class Match
     {
+        [Key]
         [Column("MatchId")]
         public int MatchId { get; set; }
 

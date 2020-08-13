@@ -6,6 +6,7 @@ namespace Carvajal.Models
     [Table("UserApp")]
     public class UserApp
     {
+        [Key]
         [Column("UserId")]
         public int UserId { get; set; }
 
