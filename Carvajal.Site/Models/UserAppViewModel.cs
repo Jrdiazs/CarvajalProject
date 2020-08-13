@@ -27,7 +27,6 @@ namespace Carvajal.Site.Models
         [MinLength(4, ErrorMessage = "Como mínimo deben ser 4 caracteres")]
         public string IdentificationNumber { get; set; }
 
-
         [MaxLength(20, ErrorMessage = "No puede pasar de 20 caracteres")]
         [MinLength(6, ErrorMessage = "Como mínimo deben ser 6 caracteres")]
         public string UserPassword { get; set; }
@@ -41,14 +40,14 @@ namespace Carvajal.Site.Models
         public string TypeIdDescription { get; set; }
     }
 
-    public static class UserAppViewModelTools 
+    public static class UserAppViewModelTools
     {
         /// <summary>
         /// Convierte un UserAppViewModel a un objeto tipo UserApp
         /// </summary>
         /// <param name="user">UserAppViewModel</param>
         /// <returns>UserApp</returns>
-        public static UserApp UserViewModelToUser(this UserAppViewModel user) 
+        public static UserApp UserViewModelToUser(this UserAppViewModel user)
         {
             return new UserApp()
             {
@@ -56,10 +55,10 @@ namespace Carvajal.Site.Models
                 IdentificationNumber = user.IdentificationNumber,
                 LastName = user.LastName,
                 TypeId = user.TypeId,
-                TypeIdentification = new TypeIdentification() 
+                TypeIdentification = new TypeIdentification()
                 {
-                     TypeId = user.TypeId,
-                     TypeDescription = user.TypeIdDescription
+                    TypeId = user.TypeId,
+                    TypeDescription = user.TypeIdDescription
                 },
                 UserEmail = user.UserEmail,
                 UserId = user.UserId,
@@ -73,9 +72,9 @@ namespace Carvajal.Site.Models
         /// </summary>
         /// <param name="user">UserApp</param>
         /// <returns>UserAppViewModel</returns>
-        public static UserAppViewModel UserToUserViewModel(this UserApp user) 
+        public static UserAppViewModel UserToUserViewModel(this UserApp user)
         {
-            return new UserAppViewModel() 
+            return new UserAppViewModel()
             {
                 IdentificationNumber = user.IdentificationNumber,
                 UserPassword = user.UserPassword,
@@ -84,10 +83,9 @@ namespace Carvajal.Site.Models
                 UserEmail = user.UserEmail,
                 UserId = user.UserId,
                 UserName = user.UserName,
-                TypeIdDescription = user.TypeIdentification != null ? user.TypeIdentification.TypeCode: string.Empty,
+                TypeIdDescription = user.TypeIdentification != null ? user.TypeIdentification.TypeCode : string.Empty,
                 ConfirmPassword = string.Empty
             };
         }
     }
-
 }

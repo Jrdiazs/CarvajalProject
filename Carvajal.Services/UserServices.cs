@@ -42,7 +42,7 @@ namespace Carvajal.Services
             {
                 if (_data.ExistsUserNumber(userApp))
                     throw new ExceptionBusiness($"There is already a user with an identification number {userApp.IdentificationNumber}");
-                
+
                 userApp.DateCreation = DateTime.Now;
 
                 var userId = _data.Insert<int>(userApp);
@@ -55,7 +55,7 @@ namespace Carvajal.Services
                 Logger.ErrorFatal("UserAppInsert", ex);
                 throw ex;
             }
-            catch (ExceptionBusiness) 
+            catch (ExceptionBusiness)
             {
                 throw;
             }
